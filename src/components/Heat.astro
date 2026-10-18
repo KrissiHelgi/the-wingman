@@ -1,0 +1,41 @@
+---
+interface Props {
+  level?: number;
+  label: string;
+}
+const { level = 0, label } = Astro.props;
+const max = 3;
+---
+
+{
+  level > 0 && (
+    <span class="heat" title={`${label}: ${level}/${max}`}>
+      <span class="visually-hidden">{`${label}: ${level}/${max}`}</span>
+      {Array.from({ length: max }, (_, i) => (
+        <svg class:list={['heat__flame', { 'is-on': i < level }]} viewBox="0 0 16 20" aria-hidden="true">
+          <path d="M8 0c1 4 6 6.5 6 12a6 6 0 0 1-12 0c0-2.6 1.4-4.3 2.6-5.4.2 1.8 1 3 2.2 3.4C6 7 6.3 3.2 8 0Z" />
+        </svg>
+      ))}
+    </span>
+  )
+}
+
+<style>
+  .heat {
+    display: inline-flex;
+    gap: 2px;
+    vertical-align: middle;
+  }
+
+  .heat__flame {
+    width: 11px;
+    height: 14px;
+    fill: currentColor;
+    opacity: 0.2;
+  }
+
+  .heat__flame.is-on {
+    opacity: 1;
+    fill: #e2401b;
+  }
+</style>

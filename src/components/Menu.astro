@@ -1,0 +1,247 @@
+---
+import { Image } from 'astro:assets';
+import wings from '../assets/wings.jpg';
+import Trailer from './Trailer.astro';
+import Heat from './Heat.astro';
+import { type Lang, tr, useT } from '../i18n';
+import { menu, formatPrice } from '../lib/content';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+---
+
+<section class="section section--cream menu" id="menu">
+  <div class="wrap">
+    <header class="menu__head">
+      <div>
+        <p class="eyebrow">{t('menu.eyebrow')}</p>
+        <h2 class="menu__title">{t('menu.title')}</h2>
+      </div>
+      <div class="menu__photo">
+        <Image src={wings} alt={lang === 'is' ? 'Kjúklingavængir og franskar' : 'Chicken wings and fries'} widths={[400, 700]} sizes="(max-width: 760px) 90vw, 420px" />
+      </div>
+    </header>
+
+    <Trailer class="menu__divider" />
+
+    <div class="menu__grid">
+      {menu.categories.map((cat) => (
+        <div class="menu__cat">
+          <h3 class="menu__cat-title">{tr(cat.title, lang)}</h3>
+          <ul class="menu__items">
+            {cat.items.map((item) => (
+              <li class:list={['menu__item', { 'is-soldout': item.soldOut }]}>
+                <div class="menu__row">
+                  <span class="menu__name">
+                    {tr(item.name, lang)}
+                    <Heat level={item.spice} label={t('menu.spice')} />
+                  </span>
+                  <span class="menu__leader" aria-hidden="true"></span>
+                  <span class="menu__price">{formatPrice(item.price)}</span>
+                </div>
+                {item.description && <p class="menu__desc">{tr(item.description, lang)}</p>}
+                {item.tag && <span class="menu__tag">{tr(item.tag, lang)}</span>}
+              </li>
+            ))}
+          </ul>
+        </div>
+      ))}
+    </div>
+
+    <aside class="menu__sauces">
+      <h3 class="menu__sauces-title">{t('menu.sauces')}</h3>
+      <ul>
+        {menu.sauces.map((s) => (
+          <li>
+            <span>{tr(s.name, lang)}</span>
+            <Heat level={s.spice} label={t('menu.spice')} />
+          </li>
+        ))}
+      </ul>
+    </aside>
+
+    <p class="menu__note mono">{t('menu.note')}</p>
+  </div>
+</section>
+
+<style>
+  .menu__head {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 2rem;
+  }
+
+  .menu__title {
+    font-size: clamp(4.5rem, 15vw, 13rem);
+    color: var(--black);
+    margin-top: 0.5rem;
+  }
+
+  .menu__photo {
+    width: min(420px, 40%);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 6px solid var(--black);
+    transform: rotate(6deg);
+    flex: none;
+    margin-bottom: -1rem;
+  }
+
+  .menu__photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: scale(1.12);
+  }
+
+  .menu :global(.menu__divider) {
+    width: 90px;
+    color: var(--orange-deep);
+    margin: 2.5rem 0 3rem;
+  }
+
+  .menu__grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: clamp(2rem, 3.5vw, 3rem);
+  }
+
+  .menu__cat {
+    min-width: 0;
+  }
+
+  .menu__cat-title {
+    font-size: 2.4rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 3px solid var(--black);
+    margin-bottom: 1.25rem;
+  }
+
+  .menu__items {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 1.4rem;
+  }
+
+  .menu__row {
+    display: flex;
+    align-items: baseline;
+    gap: 0.6rem;
+  }
+
+  .menu__name {
+    font-family: var(--font-brand);
+    font-weight: 700;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    display: inline-flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .menu__leader {
+    min-width: 1rem;
+    flex: 1;
+    border-bottom: 2px dotted rgba(11, 11, 11, 0.35);
+    transform: translateY(-4px);
+  }
+
+  .menu__price {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  .menu__desc {
+    margin: 0.25rem 0 0;
+    font-size: 0.95rem;
+    color: rgba(11, 11, 11, 0.7);
+    max-width: 40ch;
+  }
+
+  .menu__tag {
+    display: inline-block;
+    margin-top: 0.5rem;
+    padding: 0.2rem 0.65rem;
+    border-radius: 999px;
+    background: var(--orange);
+    font-family: var(--font-mono);
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .is-soldout {
+    opacity: 0.4;
+    text-decoration: line-through;
+  }
+
+  .menu__sauces {
+    margin-top: clamp(2.5rem, 5vw, 4rem);
+    background: var(--black);
+    color: var(--cream);
+    border-radius: var(--radius);
+    padding: 1.75rem 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1.25rem 2rem;
+  }
+
+  .menu__sauces-title {
+    font-size: 2.4rem;
+    color: var(--orange);
+  }
+
+  .menu__sauces ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+
+  .menu__sauces li {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.55rem 1rem;
+    border: 1.5px solid rgba(247, 134, 30, 0.5);
+    border-radius: 999px;
+    font-family: var(--font-brand);
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  .menu__note {
+    margin-top: 3rem;
+    color: rgba(11, 11, 11, 0.6);
+  }
+
+  @media (max-width: 760px) {
+    .menu__head {
+      flex-direction: column-reverse;
+      align-items: flex-start;
+    }
+
+    .menu__photo {
+      width: 62%;
+      align-self: flex-end;
+      margin-bottom: -3rem;
+    }
+  }
+</style>

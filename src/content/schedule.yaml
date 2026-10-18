@@ -1,0 +1,38 @@
+# PLACEHOLDER SCHEDULE: replace with the truck's real weekly spots.
+weekly:
+  - day: mon
+    closed: true
+  - day: tue
+    place: Mjölnir
+    address: Flugvallarvegur 3-3a, Reykjavík
+    hours: 17:00–20:00
+    mapUrl: https://maps.google.com/?q=Mjölnir+Reykjavík
+  - day: wed
+    place: Grandi
+    address: Grandagarður, Reykjavík
+    hours: 11:30–14:00
+    mapUrl: https://maps.google.com/?q=Grandagarður+Reykjavík
+  - day: thu
+    place: Mjölnir
+    address: Flugvallarvegur 3-3a, Reykjavík
+    hours: 17:00–20:00
+    mapUrl: https://maps.google.com/?q=Mjölnir+Reykjavík
+  - day: fri
+    place: Hafnarfjörður
+    address: Fjörður, Hafnarfjörður
+    hours: 17:00–21:00
+    mapUrl: https://maps.google.com/?q=Fjörður+Hafnarfjörður
+  - day: sat
+    place: Pop-up
+    note:
+      is: Fylgstu með á Instagram
+      en: Check Instagram
+  - day: sun
+    closed: true
+events:
+  - date: 2026-11-07
+    title:
+      is: Jólamarkaður
+      en: Christmas market
+    place: Hjartagarðurinn
+    hours: 13:00–18:00

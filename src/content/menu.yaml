@@ -1,0 +1,98 @@
+# PLACEHOLDER MENU: replace with the real items and prices (edit in the CMS or here).
+categories:
+  - title:
+      is: Vængir
+      en: Wings
+    items:
+      - name:
+          is: 6 vængir
+          en: 6 wings
+        description:
+          is: Stökkir, djúpsteiktir og veltir upp úr sósu að eigin vali.
+          en: Crispy, fried and tossed in the sauce of your choice.
+        price: 2290
+      - name:
+          is: 10 vængir
+          en: 10 wings
+        description:
+          is: Klassíkin. Ein sósa eða tvær, þú ræður.
+          en: The classic. One sauce or two, your call.
+        price: 3490
+        tag:
+          is: Vinsælast
+          en: Most popular
+      - name:
+          is: 20 vængir
+          en: 20 wings
+        description:
+          is: Til að deila. Eða ekki.
+          en: For sharing. Or not.
+        price: 6490
+  - title:
+      is: Combo
+      en: Combos
+    items:
+      - name:
+          is: Wingman combo
+          en: Wingman combo
+        description:
+          is: 8 vængir, franskar, ídýfa og gos.
+          en: 8 wings, fries, a dip and a soda.
+        price: 3990
+        tag:
+          is: Besta dílið
+          en: Best deal
+      - name:
+          is: Krakka box
+          en: Kids box
+        description:
+          is: 4 vængir, franskar og safi.
+          en: 4 wings, fries and a juice.
+        price: 1990
+  - title:
+      is: Meðlæti
+      en: Sides
+    items:
+      - name:
+          is: Franskar
+          en: Fries
+        description:
+          is: Með Wingman kryddi.
+          en: With Wingman seasoning.
+        price: 890
+      - name:
+          is: Sætkartöflufranskar
+          en: Sweet potato fries
+        price: 1090
+      - name:
+          is: Auka ídýfa
+          en: Extra dip
+        description:
+          is: Gráðostur, hvítlaukur eða búgarðsdressing.
+          en: Blue cheese, garlic or ranch.
+        price: 350
+      - name:
+          is: Gos
+          en: Soda
+        price: 400
+sauces:
+  - name:
+      is: Hunang & hvítlaukur
+      en: Honey garlic
+    spice: 0
+  - name:
+      is: Sítrónupipar
+      en: Lemon pepper
+    spice: 0
+  - name:
+      is: BBQ
+      en: BBQ
+    spice: 1
+  - name:
+      is: Buffalo
+      en: Buffalo
+    spice: 2
+  - name:
+      is: Wingman Hot
+      en: Wingman Hot
+    spice: 3

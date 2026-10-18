@@ -1,0 +1,266 @@
+---
+import { Image } from 'astro:assets';
+import logo from '../assets/logo.png';
+import { type Lang, pathFor, useT } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const other: Lang = lang === 'is' ? 'en' : 'is';
+const links = [
+  { href: '#menu', label: t('nav.menu') },
+  { href: '#find-us', label: t('nav.findUs') },
+  { href: '#about', label: t('nav.about') },
+  { href: '#gallery', label: t('nav.gallery') },
+  { href: '#catering', label: t('nav.catering') },
+];
+---
+
+<header class="header" data-header>
+  <div class="wrap header__inner">
+    <a href={pathFor(lang)} class="header__logo" aria-label="The Wingman">
+      <Image src={logo} alt="" width={180} loading="eager" />
+    </a>
+
+    <nav class="header__nav" id="site-nav" data-nav>
+      <ul>
+        {links.map((l) => (
+          <li><a href={l.href}>{l.label}</a></li>
+        ))}
+      </ul>
+      <div class="header__lang" aria-label="Language">
+        <a href={pathFor('is')} aria-current={lang === 'is' ? 'true' : undefined} hreflang="is" lang="is">IS</a>
+        <span aria-hidden="true">/</span>
+        <a href={pathFor('en')} aria-current={lang === 'en' ? 'true' : undefined} hreflang="en" lang="en">EN</a>
+      </div>
+    </nav>
+
+    <a href="#catering" class="btn header__cta">{t('hero.ctaBook')}</a>
+
+    <button
+      class="header__toggle"
+      type="button"
+      aria-controls="site-nav"
+      aria-expanded="false"
+      data-toggle
+      data-open-label={t('nav.open')}
+      data-close-label={t('nav.close')}
+    >
+      <span class="visually-hidden">{t('nav.open')}</span>
+      <span class="header__bars" aria-hidden="true"></span>
+    </button>
+  </div>
+</header>
+
+<script>
+  const header = document.querySelector<HTMLElement>('[data-header]')!;
+  const toggle = header.querySelector<HTMLButtonElement>('[data-toggle]')!;
+  const label = toggle.querySelector('.visually-hidden')!;
+
+  const setOpen = (open: boolean) => {
+    header.classList.toggle('is-open', open);
+    toggle.setAttribute('aria-expanded', String(open));
+    label.textContent = open ? toggle.dataset.closeLabel! : toggle.dataset.openLabel!;
+    document.body.style.overflow = open ? 'hidden' : '';
+  };
+
+  toggle.addEventListener('click', () => setOpen(!header.classList.contains('is-open')));
+  header.querySelectorAll('[data-nav] a').forEach((a) => a.addEventListener('click', () => setOpen(false)));
+
+  const onScroll = () => header.classList.toggle('is-scrolled', window.scrollY > 40);
+  onScroll();
+  window.addEventListener('scroll', onScroll, { passive: true });
+</script>
+
+<style>
+  .header {
+    position: fixed;
+    inset: 0 0 auto;
+    z-index: 50;
+  }
+
+  /* Blur lives on a pseudo-element: backdrop-filter on .header itself would
+     become the containing block for the fixed mobile nav and collapse it. */
+  .header::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    opacity: 0;
+    background: rgba(11, 11, 11, 0.92);
+    backdrop-filter: blur(10px);
+    box-shadow: 0 1px 0 rgba(247, 134, 30, 0.25);
+    transition: opacity 0.3s ease;
+  }
+
+  .header.is-scrolled::before,
+  .header.is-open::before {
+    opacity: 1;
+  }
+
+  .header__inner {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    height: 4.75rem;
+  }
+
+  .header__logo :global(img) {
+    width: 140px;
+    height: auto;
+  }
+
+  .header__nav {
+    display: flex;
+    align-items: center;
+    gap: 2rem;
+    margin-left: auto;
+  }
+
+  .header__nav ul {
+    display: flex;
+    gap: 1.75rem;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .header__nav a {
+    font-family: var(--font-brand);
+    font-weight: 700;
+    font-size: 0.82rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+
+  .header__nav a:hover {
+    color: var(--orange);
+  }
+
+  .header__lang {
+    display: flex;
+    gap: 0.4rem;
+    font-family: var(--font-mono);
+    font-size: 0.8rem;
+    color: rgba(255, 248, 240, 0.5);
+  }
+
+  .header__lang a {
+    font-family: var(--font-mono);
+    letter-spacing: 0.05em;
+  }
+
+  .header__lang a[aria-current] {
+    color: var(--orange);
+  }
+
+  .header__cta {
+    padding: 0.7rem 1.2rem;
+    font-size: 0.78rem;
+  }
+
+  .header__toggle {
+    display: none;
+  }
+
+  @media (max-width: 960px) {
+    .header__cta {
+      display: none;
+    }
+
+    .header__toggle {
+      display: grid;
+      place-items: center;
+      margin-left: auto;
+      width: 48px;
+      height: 48px;
+      border: 2px solid var(--orange);
+      border-radius: 50%;
+      background: transparent;
+      cursor: pointer;
+    }
+
+    .header__bars,
+    .header__bars::before,
+    .header__bars::after {
+      display: block;
+      width: 20px;
+      height: 2px;
+      background: var(--orange);
+      position: relative;
+      transition: transform 0.25s ease, background 0.25s ease;
+    }
+
+    .header__bars::before,
+    .header__bars::after {
+      content: '';
+      position: absolute;
+      left: 0;
+    }
+
+    .header__bars::before {
+      top: -6px;
+    }
+
+    .header__bars::after {
+      top: 6px;
+    }
+
+    .is-open .header__bars {
+      background: transparent;
+    }
+
+    .is-open .header__bars::before {
+      transform: translateY(6px) rotate(45deg);
+    }
+
+    .is-open .header__bars::after {
+      transform: translateY(-6px) rotate(-45deg);
+    }
+
+    .header__nav {
+      position: fixed;
+      inset: 4.75rem 0 0;
+      flex-direction: column;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2rem;
+      padding: 2rem var(--gutter) 3rem;
+      background: var(--black);
+      border-top: 1px solid rgba(247, 134, 30, 0.25);
+      overflow-y: auto;
+      opacity: 0;
+      transform: translateY(-12px);
+      visibility: hidden;
+      transition: opacity 0.25s ease, transform 0.25s ease, visibility 0.25s;
+      margin: 0;
+    }
+
+    .is-open .header__nav {
+      opacity: 1;
+      transform: none;
+      visibility: visible;
+    }
+
+    .header__nav ul {
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .header__nav ul a {
+      font-family: var(--font-display);
+      font-weight: 400;
+      font-size: clamp(2.6rem, 12vw, 4rem);
+      letter-spacing: 0;
+      line-height: 1.1;
+    }
+
+    .header__lang {
+      font-size: 1.1rem;
+    }
+  }
+</style>

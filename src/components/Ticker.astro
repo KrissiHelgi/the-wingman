@@ -1,0 +1,87 @@
+---
+import Trailer from './Trailer.astro';
+import { type Lang, tr } from '../i18n';
+import { site } from '../lib/content';
+
+interface Props {
+  lang: Lang;
+  tone?: 'orange' | 'black';
+  reverse?: boolean;
+}
+const { lang, tone = 'orange', reverse = false } = Astro.props;
+const words = site.ticker.map((w) => tr(w, lang));
+---
+
+<div class:list={['ticker', `ticker--${tone}`, { 'ticker--reverse': reverse }]} aria-label={words.join(', ')}>
+  <div class="ticker__track" aria-hidden="true">
+    {[0, 1].map(() => (
+      <div class="ticker__group">
+        {words.map((w) => (
+          <>
+            <span>{w}</span>
+            <Trailer class="ticker__icon" />
+          </>
+        ))}
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .ticker {
+    overflow: hidden;
+    padding-block: 1rem;
+    border-block: 2px solid var(--black);
+    position: relative;
+    z-index: 2;
+  }
+
+  .ticker--orange {
+    background: var(--orange);
+    color: var(--black);
+    transform: rotate(-1.2deg);
+    margin-block: -0.6rem;
+  }
+
+  .ticker--black {
+    background: var(--black);
+    color: var(--orange);
+    border-color: var(--orange);
+  }
+
+  .ticker__track {
+    display: flex;
+    width: max-content;
+    animation: marquee 32s linear infinite;
+  }
+
+  .ticker--reverse .ticker__track {
+    animation-direction: reverse;
+  }
+
+  .ticker__group {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+    padding-right: 1.75rem;
+  }
+
+  .ticker__group span {
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
+    text-transform: uppercase;
+    white-space: nowrap;
+    line-height: 1;
+  }
+
+  .ticker__group :global(.ticker__icon) {
+    width: 2.6rem;
+    flex: none;
+  }
+
+  @keyframes marquee {
+    to {
+      transform: translateX(-50%);
+    }
+  }
+</style>

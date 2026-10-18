@@ -1,0 +1,218 @@
+media:
+  input: public/gallery
+  output: /gallery
+  extensions: [jpg, jpeg, png, webp, avif]
+
+components:
+  localized:
+    type: object
+    fields:
+      - name: is
+        label: Íslenska
+        type: string
+        required: true
+      - name: en
+        label: English
+        type: string
+        required: true
+  localizedText:
+    type: object
+    fields:
+      - name: is
+        label: Íslenska
+        type: text
+        required: true
+      - name: en
+        label: English
+        type: text
+        required: true
+  spice:
+    type: select
+    label: Styrkleiki / Heat
+    default: 0
+    options:
+      values:
+        - { value: 0, label: '0 – Mild' }
+        - { value: 1, label: '1 – 🌶' }
+        - { value: 2, label: '2 – 🌶🌶' }
+        - { value: 3, label: '3 – 🌶🌶🌶' }
+
+content:
+  - name: menu
+    label: Matseðill / Menu
+    type: file
+    path: src/content/menu.yaml
+    format: yaml
+    fields:
+      - name: categories
+        label: Flokkar / Categories
+        type: object
+        list: true
+        fields:
+          - name: title
+            label: Heiti flokks / Category name
+            component: localized
+          - name: items
+            label: Réttir / Items
+            type: object
+            list: true
+            fields:
+              - name: name
+                label: Heiti / Name
+                component: localized
+              - name: description
+                label: Lýsing / Description
+                component: localized
+                required: false
+              - name: price
+                label: Verð (kr.) / Price (ISK)
+                type: number
+                required: true
+              - name: spice
+                component: spice
+              - name: tag
+                label: Merki, t.d. „Vinsælast“ / Badge, e.g. "Most popular"
+                component: localized
+                required: false
+              - name: soldOut
+                label: Uppselt / Sold out
+                type: boolean
+      - name: sauces
+        label: Sósur / Sauces
+        type: object
+        list: true
+        fields:
+          - name: name
+            label: Heiti / Name
+            component: localized
+          - name: spice
+            component: spice
+
+  - name: schedule
+    label: Staðsetning / Schedule
+    type: file
+    path: src/content/schedule.yaml
+    format: yaml
+    fields:
+      - name: weekly
+        label: Vikan / Weekly spots
+        type: object
+        list: true
+        fields:
+          - name: day
+            label: Dagur / Day
+            type: select
+            required: true
+            options:
+              values:
+                - { value: mon, label: Mánudagur }
+                - { value: tue, label: Þriðjudagur }
+                - { value: wed, label: Miðvikudagur }
+                - { value: thu, label: Fimmtudagur }
+                - { value: fri, label: Föstudagur }
+                - { value: sat, label: Laugardagur }
+                - { value: sun, label: Sunnudagur }
+          - name: closed
+            label: Lokað / Closed
+            type: boolean
+          - name: place
+            label: Staður / Place
+            type: string
+          - name: address
+            label: Heimilisfang / Address
+            type: string
+          - name: hours
+            label: Opnunartími, t.d. 17:00–20:00 / Hours
+            type: string
+          - name: mapUrl
+            label: Google Maps hlekkur / link
+            type: string
+          - name: note
+            label: Athugasemd / Note
+            component: localized
+            required: false
+      - name: events
+        label: Viðburðir / Events
+        type: object
+        list: true
+        fields:
+          - name: date
+            label: Dagsetning / Date
+            type: date
+            required: true
+          - name: title
+            label: Heiti / Title
+            component: localized
+          - name: place
+            label: Staður / Place
+            type: string
+          - name: hours
+            label: Tími / Hours
+            type: string
+
+  - name: site
+    label: Upplýsingar / Site info
+    type: file
+    path: src/content/site.yaml
+    format: yaml
+    fields:
+      - name: tagline
+        label: Slagorð / Tagline
+        component: localized
+      - name: about
+        label: Sagan (málsgreinar) / Story (paragraphs)
+        component: localizedText
+        list: true
+      - name: ticker
+        label: Borði (orð sem renna) / Ticker words
+        component: localized
+        list: true
+      - name: phone
+        label: Sími / Phone
+        type: string
+      - name: email
+        label: Netfang / Email
+        type: string
+        required: true
+      - name: instagram
+        label: Instagram URL
+        type: string
+      - name: facebook
+        label: Facebook URL
+        type: string
+      - name: tiktok
+        label: TikTok URL
+        type: string
+      - name: booking
+        label: Bókunarborði / Booking banner
+        type: object
+        fields:
+          - name: motto
+            label: Slagorð / Motto
+            component: localized
+          - name: cta
+            label: Texti á takka / Button text
+            component: localized
+      - name: catering
+        label: Veislur / Catering
+        type: object
+        fields:
+          - name: intro
+            label: Inngangur / Intro
+            component: localizedText
+          - name: points
+            label: Punktar / Bullet points
+            component: localized
+            list: true
+      - name: gallery
+        label: Myndir / Gallery
+        type: object
+        list: true
+        fields:
+          - name: image
+            label: Mynd / Image
+            type: image
+            required: true
+          - name: caption
+            label: Myndatexti / Caption
+            component: localized

@@ -1,0 +1,344 @@
+---
+import { Image } from 'astro:assets';
+import van from '../assets/van.png';
+import Stamp from './Stamp.astro';
+import { type Lang, useT } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+---
+
+<section class="hero" data-hero>
+  <div class="hero__glow" aria-hidden="true"></div>
+  <Stamp class="hero__stamp" text={t('stamp.text')} href="#menu" label={t('nav.menu')} />
+  <div class="wrap hero__inner">
+    <p class="eyebrow hero__kicker">{t('hero.kicker')}</p>
+
+    <h1 class="hero__title">
+      <span class="visually-hidden">The Wingman. </span>
+      <span class="hero__line hero__line--1">{t('hero.title1')}</span>
+      <span class="hero__line hero__line--2">{t('hero.title2')}</span>
+      <span class="hero__line hero__line--3">{t('hero.title3')}</span>
+    </h1>
+
+    <div class="hero__road">
+      <div class="hero__drive" data-drive>
+        <div class="hero__arrive">
+          <div class="hero__van-wrap">
+            <span class="hero__van-glow" aria-hidden="true"></span>
+            <span class="hero__van-smoke" aria-hidden="true"></span>
+            <Image
+              class="hero__van"
+              src={van}
+              alt={lang === 'is' ? 'Svarti Wingman sendibíllinn á ferð' : 'The black Wingman van driving'}
+              widths={[600, 920]}
+              sizes="(max-width: 760px) 110vw, 900px"
+              loading="eager"
+              fetchpriority="high"
+            />
+            <span class="hero__van-grain" aria-hidden="true"></span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hero__foot">
+      <p class="hero__lede">{t('hero.lede')}</p>
+      <div class="hero__ctas">
+        <a href="#catering" class="btn">{t('hero.ctaBook')}</a>
+        <a href="#menu" class="btn btn--ghost">{t('hero.ctaMenu')}</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const hero = document.querySelector<HTMLElement>('[data-hero]')!;
+  const drive = hero.querySelector<HTMLElement>('[data-drive]')!;
+  const reduced = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    if (reduced.matches) {
+      drive.style.transform = '';
+      return;
+    }
+    const progress = Math.min(Math.max(window.scrollY / (hero.offsetHeight * 0.8), 0), 1);
+    // Ease-in so the van "accelerates" away to the left as you scroll.
+    const eased = progress * progress;
+    drive.style.transform = `translate3d(${-eased * 130}vw, 0, 0) rotate(${eased * 1.5}deg)`;
+  };
+
+  window.addEventListener(
+    'scroll',
+    () => {
+      if (!ticking) {
+        ticking = true;
+        requestAnimationFrame(update);
+      }
+    },
+    { passive: true },
+  );
+  update();
+</script>
+
+<style>
+  .hero {
+    position: relative;
+    padding-top: clamp(7rem, 12vw, 9rem);
+    padding-bottom: clamp(3rem, 6vw, 5rem);
+    overflow: hidden;
+  }
+
+  /* Red/orange smoke glow, taken from the WING-BOX poster */
+  .hero__glow {
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(40% 50% at 12% 30%, rgba(160, 20, 8, 0.55), transparent 70%),
+      radial-gradient(35% 45% at 90% 75%, rgba(200, 60, 10, 0.4), transparent 70%),
+      radial-gradient(50% 40% at 60% 0%, rgba(110, 10, 5, 0.5), transparent 70%);
+    filter: blur(30px);
+    pointer-events: none;
+  }
+
+  .hero__inner {
+    position: relative;
+  }
+
+  .hero__title {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    column-gap: 0.22em;
+    width: 100%;
+    margin-top: 1rem;
+    font-size: clamp(4rem, 13.5vw, 12.5rem);
+    color: var(--orange);
+    line-height: 0.86;
+  }
+
+  .hero__line {
+    white-space: nowrap;
+  }
+
+  .hero__line--2 {
+    color: var(--white);
+  }
+
+  /* The whole road is tilted, so the van's straight drive along it reads as a diagonal:
+     in from the lower right, out towards the upper left. */
+  .hero__road {
+    --tilt: 4deg;
+    position: relative;
+    z-index: 2;
+    margin-top: clamp(-9rem, -11vw, -3rem);
+    padding-bottom: 1.5rem;
+    transform: rotate(var(--tilt));
+    transform-origin: 60% 100%;
+  }
+
+  /* Glowing tarmac line the van drives on */
+  .hero__road::before {
+    content: '';
+    position: absolute;
+    left: -50vw;
+    right: -50vw;
+    bottom: 1.5rem;
+    height: 2px;
+    background: repeating-linear-gradient(90deg, var(--orange) 0 48px, transparent 48px 84px);
+    opacity: 0.55;
+  }
+
+  .hero__road::after {
+    content: '';
+    position: absolute;
+    left: 10%;
+    right: 5%;
+    bottom: 0.5rem;
+    height: 70%;
+    background:
+      radial-gradient(45% 55% at 55% 100%, rgba(247, 134, 30, 0.5), transparent 72%),
+      radial-gradient(30% 45% at 75% 90%, rgba(160, 20, 8, 0.35), transparent 70%);
+    filter: blur(22px);
+    z-index: -1;
+    pointer-events: none;
+  }
+
+  .hero__drive {
+    will-change: transform;
+    transform-origin: 30% 100%;
+  }
+
+  .hero__arrive {
+    width: min(900px, 100%);
+    margin-left: auto;
+    animation: drive-in 2s cubic-bezier(0.16, 0.8, 0.24, 1) 0.15s both;
+    transform-origin: 30% 100%;
+  }
+
+  .hero__van-wrap {
+    position: relative;
+    isolation: isolate;
+    animation: idle 0.5s ease-in-out 2.2s infinite alternate;
+  }
+
+  /* Ember rim light so the dark van reads as a night silhouette */
+  .hero__van-glow {
+    position: absolute;
+    inset: 4% -2% -6%;
+    z-index: 0;
+    background:
+      radial-gradient(50% 65% at 72% 45%, rgba(247, 134, 30, 0.7), transparent 68%),
+      radial-gradient(42% 55% at 18% 68%, rgba(160, 20, 8, 0.55), transparent 65%),
+      radial-gradient(60% 40% at 50% 100%, rgba(247, 134, 30, 0.4), transparent 70%);
+    filter: blur(32px);
+    pointer-events: none;
+  }
+
+  /* Soft dust / smoke under the wheels */
+  .hero__van-smoke {
+    position: absolute;
+    left: 4%;
+    right: -2%;
+    bottom: -8%;
+    height: 46%;
+    z-index: 2;
+    background:
+      radial-gradient(38% 70% at 16% 68%, rgba(252, 233, 214, 0.35), transparent 70%),
+      radial-gradient(48% 85% at 40% 78%, rgba(247, 134, 30, 0.4), transparent 72%),
+      radial-gradient(55% 95% at 70% 72%, rgba(180, 50, 10, 0.32), transparent 70%);
+    filter: blur(12px);
+    mix-blend-mode: screen;
+    opacity: 1;
+    pointer-events: none;
+    animation: smoke 2.4s ease-in-out 2.2s infinite alternate;
+  }
+
+  .hero__road :global(.hero__van) {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: auto;
+    background: transparent;
+    /* Night grade: deeper blacks, warmer cast, crush the clean vector look */
+    filter:
+      contrast(1.28)
+      brightness(0.78)
+      saturate(1.2)
+      sepia(0.3)
+      hue-rotate(-10deg)
+      drop-shadow(0 0 18px rgba(247, 134, 30, 0.35))
+      drop-shadow(-12px 8px 28px rgba(120, 15, 5, 0.55));
+  }
+
+  /* Film grain clipped to the van silhouette */
+  .hero__van-grain {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    pointer-events: none;
+    opacity: 0.42;
+    mix-blend-mode: soft-light;
+    -webkit-mask-image: url('../assets/van.png');
+    mask-image: url('../assets/van.png');
+    -webkit-mask-size: contain;
+    mask-size: contain;
+    -webkit-mask-repeat: no-repeat;
+    mask-repeat: no-repeat;
+    -webkit-mask-position: center;
+    mask-position: center;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* Van faces left: it rolls in from the right, nose dips as it brakes, then settles */
+  @keyframes drive-in {
+    0% {
+      transform: translate3d(110vw, 0, 0);
+    }
+    70% {
+      transform: translate3d(-1.5%, 0, 0) rotate(-1.2deg);
+    }
+    85% {
+      transform: translate3d(0.5%, 0, 0) rotate(0.4deg);
+    }
+    100% {
+      transform: none;
+    }
+  }
+
+  @keyframes idle {
+    to {
+      transform: translateY(-2px);
+    }
+  }
+
+  @keyframes smoke {
+    from {
+      transform: scaleX(1) translateX(0);
+      opacity: 0.7;
+    }
+    to {
+      transform: scaleX(1.08) translateX(-2%);
+      opacity: 0.95;
+    }
+  }
+
+  .hero :global(.stamp.hero__stamp) {
+    position: absolute;
+    top: clamp(6.5rem, 10vw, 8.5rem);
+    right: var(--gutter);
+    --size: clamp(110px, 13vw, 160px);
+    z-index: 4;
+  }
+
+  .hero__foot {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1.5rem 3rem;
+    margin-top: clamp(1.5rem, 3vw, 2.5rem);
+    padding-top: clamp(1.5rem, 3vw, 2.5rem);
+    border-top: 1px solid rgba(247, 134, 30, 0.3);
+  }
+
+  .hero__lede {
+    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
+    max-width: 40ch;
+    margin: 0;
+    color: rgba(255, 248, 240, 0.85);
+  }
+
+  .hero__ctas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  @media (max-width: 760px) {
+    .hero__title {
+      font-size: clamp(3rem, 15vw, 6rem);
+    }
+
+    .hero__road {
+      --tilt: 3deg;
+      margin-top: 1.25rem;
+    }
+
+    .hero__arrive {
+      width: 112%;
+      margin-right: -6%;
+    }
+
+    .hero :global(.stamp.hero__stamp) {
+      top: 5.5rem;
+      --size: 96px;
+    }
+  }
+</style>

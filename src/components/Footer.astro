@@ -1,0 +1,156 @@
+---
+import Trailer from './Trailer.astro';
+import { type Lang, pathFor, useT } from '../i18n';
+import { schedule, site } from '../lib/content';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const open = schedule.weekly.filter((s) => !s.closed && s.hours);
+const socials = [
+  { label: 'Instagram', href: site.instagram },
+  { label: 'Facebook', href: site.facebook },
+  { label: 'TikTok', href: site.tiktok },
+].filter((s) => s.href);
+---
+
+<footer class="footer" id="contact">
+  <div class="wrap">
+    <div class="footer__brand">
+      <Trailer class="footer__icon" />
+      <p class="footer__word" aria-hidden="true">The Wingman</p>
+    </div>
+
+    <div class="footer__cols">
+      <div>
+        <h2 class="footer__h">{t('footer.hours')}</h2>
+        <ul>
+          {open.map((s) => (
+            <li><span>{t(`days.${s.day}`)}</span><span class="mono">{s.hours}</span></li>
+          ))}
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer__h">{t('footer.contact')}</h2>
+        <ul>
+          <li><a href={`mailto:${site.email}`}>{site.email}</a></li>
+          {site.phone && <li><a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a></li>}
+          <li><a href="#catering">{t('nav.catering')}</a></li>
+        </ul>
+      </div>
+      <div>
+        <h2 class="footer__h">{t('footer.follow')}</h2>
+        <ul>
+          {socials.map((s) => (
+            <li><a href={s.href} target="_blank" rel="noopener">{s.label} ↗</a></li>
+          ))}
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer__base mono">
+      <span>© {new Date().getFullYear()} The Wingman · Street food · Est 2017</span>
+      <span class="footer__lang">
+        <a href={pathFor('is')} aria-current={lang === 'is' ? 'true' : undefined}>Íslenska</a>
+        <a href={pathFor('en')} aria-current={lang === 'en' ? 'true' : undefined}>English</a>
+      </span>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: var(--black);
+    border-top: 2px solid var(--orange);
+    padding: clamp(4rem, 8vw, 6rem) 0 2rem;
+  }
+
+  .footer__brand {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: var(--orange);
+  }
+
+  .footer__brand :global(.footer__icon) {
+    width: clamp(90px, 12vw, 150px);
+  }
+
+  .footer__word {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: clamp(3.5rem, 15.5vw, 14rem);
+    line-height: 0.9;
+    margin: 0.75rem 0 0;
+    white-space: nowrap;
+  }
+
+  .footer__cols {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    margin-top: clamp(3rem, 6vw, 5rem);
+    padding-top: 2.5rem;
+    border-top: 1px solid rgba(255, 248, 240, 0.15);
+  }
+
+  .footer__h {
+    font-size: 1.5rem;
+    color: var(--orange);
+    margin-bottom: 1rem;
+  }
+
+  .footer ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.45rem;
+  }
+
+  .footer li {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    max-width: 300px;
+  }
+
+  .footer li a {
+    text-decoration: none;
+  }
+
+  .footer li a:hover {
+    color: var(--orange);
+  }
+
+  .footer__base {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 3.5rem;
+    color: rgba(255, 248, 240, 0.45);
+    font-size: 0.7rem;
+  }
+
+  .footer__lang {
+    display: flex;
+    gap: 1rem;
+  }
+
+  .footer__lang a {
+    text-decoration: none;
+  }
+
+  .footer__lang a[aria-current] {
+    color: var(--orange);
+  }
+
+  @media (max-width: 760px) {
+    .footer__cols {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

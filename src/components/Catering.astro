@@ -1,0 +1,298 @@
+---
+import Trailer from './Trailer.astro';
+import { type Lang, tr, useT } from '../i18n';
+import { site } from '../lib/content';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
+---
+
+<section class="section section--cream catering" id="catering">
+  <div class="wrap catering__inner">
+    <div class="catering__intro">
+      <p class="eyebrow">{t('catering.eyebrow')}</p>
+      <h2 class="catering__title">{t('catering.title')}</h2>
+      <p class="catering__lede">{tr(site.catering.intro, lang)}</p>
+      <ul class="catering__points">
+        {site.catering.points.map((p) => (
+          <li><Trailer class="catering__bullet" />{tr(p, lang)}</li>
+        ))}
+      </ul>
+    </div>
+
+    {accessKey ? (
+      <form
+        class="form"
+        action="https://api.web3forms.com/submit"
+        method="POST"
+        data-catering-form
+        data-sending={t('catering.sending')}
+      >
+        <input type="hidden" name="access_key" value={accessKey} />
+        <input type="hidden" name="subject" value="Veislufyrirspurn / Catering request – The Wingman" />
+        <input type="hidden" name="from_name" value="thewingman.is" />
+        <input type="checkbox" name="botcheck" class="visually-hidden" tabindex="-1" autocomplete="off" aria-hidden="true" />
+
+        <label class="form__field">
+          <span>{t('catering.name')}</span>
+          <input name="name" required autocomplete="name" />
+        </label>
+        <label class="form__field">
+          <span>{t('catering.email')}</span>
+          <input name="email" type="email" required autocomplete="email" />
+        </label>
+        <label class="form__field">
+          <span>{t('catering.phone')}</span>
+          <input name="phone" type="tel" autocomplete="tel" />
+        </label>
+        <label class="form__field">
+          <span>{t('catering.date')}</span>
+          <input name="date" type="date" />
+        </label>
+        <label class="form__field">
+          <span>{t('catering.guests')}</span>
+          <input name="guests" type="number" min="1" inputmode="numeric" />
+        </label>
+        <label class="form__field">
+          <span>{t('catering.location')}</span>
+          <input name="location" />
+        </label>
+        <label class="form__field form__field--full">
+          <span>{t('catering.message')}</span>
+          <textarea name="message" rows="4" required></textarea>
+        </label>
+
+        <div class="form__foot">
+          <button class="btn" type="submit">{t('catering.submit')}</button>
+          <p class="form__status" role="status" aria-live="polite" hidden></p>
+        </div>
+
+        <div class="form__success" hidden data-success>
+          <Trailer class="form__success-icon" />
+          <p>{t('catering.success')}</p>
+        </div>
+
+        <template data-error>
+          {t('catering.error')} <a href={`mailto:${site.email}`}>{site.email}</a>
+        </template>
+      </form>
+    ) : (
+      <div class="form form--fallback">
+        <p>
+          {t('catering.noKey')} <a href={`mailto:${site.email}`}>{site.email}</a>
+          {site.phone && <> · <a href={`tel:${site.phone.replace(/\s/g, '')}`}>{site.phone}</a></>}
+        </p>
+      </div>
+    )}
+  </div>
+</section>
+
+<script>
+  const form = document.querySelector<HTMLFormElement>('[data-catering-form]');
+
+  if (form) {
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const status = form.querySelector<HTMLElement>('.form__status')!;
+    const success = form.querySelector<HTMLElement>('[data-success]')!;
+    const errorTpl = form.querySelector<HTMLTemplateElement>('[data-error]')!;
+    const idleLabel = button.textContent;
+
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      button.disabled = true;
+      button.textContent = form.dataset.sending ?? '...';
+      status.hidden = true;
+
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          headers: { Accept: 'application/json' },
+          body: new FormData(form),
+        });
+        const data = await res.json();
+        if (!res.ok || !data.success) throw new Error(data.message);
+
+        form.reset();
+        form.classList.add('is-sent');
+        success.hidden = false;
+      } catch {
+        status.replaceChildren(errorTpl.content.cloneNode(true));
+        status.hidden = false;
+      } finally {
+        button.disabled = false;
+        button.textContent = idleLabel;
+      }
+    });
+  }
+</script>
+
+<style>
+  .catering__inner {
+    display: grid;
+    grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
+    gap: clamp(2.5rem, 6vw, 6rem);
+    align-items: start;
+  }
+
+  .catering__title {
+    font-size: clamp(3.2rem, 7.5vw, 6.5rem);
+    margin: 0.75rem 0 1.5rem;
+  }
+
+  .catering__lede {
+    font-size: 1.1rem;
+    max-width: 40ch;
+    margin: 0 0 2rem;
+  }
+
+  .catering__points {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    gap: 0.8rem;
+  }
+
+  .catering__points li {
+    display: flex;
+    align-items: center;
+    gap: 0.9rem;
+    font-family: var(--font-brand);
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+  }
+
+  .catering__points :global(.catering__bullet) {
+    width: 2.2rem;
+    color: var(--orange-deep);
+    flex: none;
+  }
+
+  .form {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.1rem;
+    background: var(--black);
+    color: var(--white);
+    padding: clamp(1.5rem, 4vw, 2.75rem);
+    border-radius: var(--radius);
+  }
+
+  .form__field {
+    display: grid;
+    gap: 0.4rem;
+  }
+
+  .form__field--full {
+    grid-column: 1 / -1;
+  }
+
+  .form__field span {
+    font-family: var(--font-mono);
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: var(--orange);
+  }
+
+  .form input,
+  .form textarea {
+    width: 100%;
+    font: inherit;
+    color: var(--white);
+    background: var(--ink);
+    border: 1px solid rgba(255, 248, 240, 0.15);
+    border-radius: 12px;
+    padding: 0.8rem 0.9rem;
+    color-scheme: dark;
+    transition: border-color 0.2s ease;
+  }
+
+  .form input:focus,
+  .form textarea:focus {
+    outline: none;
+    border-color: var(--orange);
+  }
+
+  .form textarea {
+    resize: vertical;
+  }
+
+  .form__foot {
+    grid-column: 1 / -1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+    margin-top: 0.5rem;
+  }
+
+  .form__foot .btn:disabled {
+    opacity: 0.6;
+    cursor: progress;
+  }
+
+  .form__status {
+    margin: 0;
+    color: #ff9b7a;
+    font-size: 0.9rem;
+  }
+
+  .form__success {
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: var(--orange);
+    color: var(--black);
+    display: grid;
+    place-content: center;
+    justify-items: center;
+    gap: 1rem;
+    text-align: center;
+    padding: 2rem;
+  }
+
+  .form__success[hidden] {
+    display: none;
+  }
+
+  .form__success p {
+    font-family: var(--font-display);
+    text-transform: uppercase;
+    font-size: clamp(1.8rem, 4vw, 2.6rem);
+    line-height: 1;
+    margin: 0;
+    max-width: 16ch;
+  }
+
+  .form__success :global(.form__success-icon) {
+    width: 110px;
+  }
+
+  .form--fallback {
+    grid-template-columns: 1fr;
+    font-size: 1.2rem;
+  }
+
+  .form--fallback a {
+    color: var(--orange);
+  }
+
+  @media (max-width: 960px) {
+    .catering__inner {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  @media (max-width: 520px) {
+    .form {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

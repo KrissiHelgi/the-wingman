@@ -1,0 +1,35 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from './Header.astro';
+import Hero from './Hero.astro';
+import Ticker from './Ticker.astro';
+import BookBand from './BookBand.astro';
+import Menu from './Menu.astro';
+import FindUs from './FindUs.astro';
+import About from './About.astro';
+import Gallery from './Gallery.astro';
+import Catering from './Catering.astro';
+import Footer from './Footer.astro';
+import type { Lang } from '../i18n';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+---
+
+<Base lang={lang}>
+  <Header lang={lang} />
+  <main>
+    <Hero lang={lang} />
+    <Ticker lang={lang} />
+    <BookBand lang={lang} />
+    <Menu lang={lang} />
+    <FindUs lang={lang} />
+    <About lang={lang} />
+    <Gallery lang={lang} />
+    <Ticker lang={lang} tone="black" reverse />
+    <Catering lang={lang} />
+  </main>
+  <Footer lang={lang} />
+</Base>

@@ -1,0 +1,33 @@
+---
+interface Props {
+  class?: string;
+  title?: string;
+}
+const { class: className, title } = Astro.props;
+const id = `wheelcut-${Math.random().toString(36).slice(2, 8)}`;
+---
+
+<svg
+  class={className}
+  viewBox="0 0 220 116"
+  fill="currentColor"
+  role={title ? 'img' : undefined}
+  aria-hidden={title ? undefined : 'true'}
+>
+  {title && <title>{title}</title>}
+  <defs>
+    <mask id={id}>
+      <rect width="220" height="116" fill="white" />
+      <circle cx="124" cy="86" r="20" fill="black" />
+    </mask>
+  </defs>
+  <path
+    mask={`url(#${id})`}
+    fill-rule="evenodd"
+    d="M44 8C92 2 150 2 194 8Q204 9.5 204 20L204 78Q204 86 196 86L42 86Q34 86 34 78L34 20Q34 9.5 44 8Z M56 22h30v16h-30Z M104 22h66v16h-66Z"
+  />
+  <rect x="0" y="82" width="38" height="4" />
+  <circle cx="124" cy="86" r="13" fill="none" stroke="currentColor" stroke-width="6" />
+  <circle cx="124" cy="86" r="4.5" />
+  <rect x="40" y="108" width="180" height="5" />
+</svg>

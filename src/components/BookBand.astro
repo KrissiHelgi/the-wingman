@@ -1,0 +1,133 @@
+---
+import { Image } from 'astro:assets';
+import truck from '../assets/truck-sunny.jpg';
+import Trailer from './Trailer.astro';
+import { type Lang, tr, useT } from '../i18n';
+import { site } from '../lib/content';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useT(lang);
+---
+
+<section class="book" aria-labelledby="book-title">
+  <div class="wrap">
+    <div class="book__card">
+      <div class="book__copy">
+        <p class="book__eyebrow">
+          <Trailer class="book__icon" />
+          {t('book.eyebrow')}
+        </p>
+        <h2 class="book__title" id="book-title">{tr(site.booking.motto, lang)}</h2>
+        <a href="#catering" class="book__btn">
+          {tr(site.booking.cta, lang)}
+          <span aria-hidden="true">→</span>
+        </a>
+      </div>
+      <div class="book__photo">
+        <Image src={truck} alt="" widths={[400, 600]} sizes="(max-width: 860px) 80vw, 380px" />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .book {
+    padding-block: clamp(4rem, 8vw, 6.5rem) clamp(3.5rem, 7vw, 5.5rem);
+  }
+
+  .book__card {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    align-items: center;
+    gap: clamp(2rem, 5vw, 4rem);
+    background: var(--orange);
+    color: var(--black);
+    border-radius: var(--radius);
+    padding: clamp(2rem, 5vw, 4rem);
+    overflow: hidden;
+  }
+
+  .book__eyebrow {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    margin: 0 0 1.25rem;
+    font-family: var(--font-brand);
+    font-weight: 700;
+    font-size: 0.8rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+  }
+
+  .book__eyebrow :global(.book__icon) {
+    width: 2.4rem;
+    flex: none;
+  }
+
+  .book__title {
+    font-size: clamp(2.8rem, 6.5vw, 5.75rem);
+    line-height: 0.92;
+    max-width: 14ch;
+  }
+
+  .book__btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    margin-top: clamp(1.75rem, 3vw, 2.5rem);
+    padding: 1.1rem 1.75rem;
+    border-radius: 999px;
+    background: var(--black);
+    color: var(--orange);
+    font-family: var(--font-brand);
+    font-weight: 700;
+    font-size: clamp(0.85rem, 1.4vw, 1rem);
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    text-decoration: none;
+    transition: transform 0.2s ease, gap 0.2s ease;
+  }
+
+  .book__btn:hover {
+    transform: translateY(-2px);
+    gap: 1.3rem;
+  }
+
+  .book__btn span {
+    font-size: 1.3em;
+    line-height: 1;
+  }
+
+  .book__photo {
+    justify-self: end;
+    width: 100%;
+    max-width: 380px;
+    aspect-ratio: 4 / 5;
+    border-radius: 999px 999px var(--radius) var(--radius);
+    overflow: hidden;
+    border: 6px solid var(--black);
+    transform: rotate(3deg);
+  }
+
+  .book__photo :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 40% 50%;
+  }
+
+  @media (max-width: 860px) {
+    .book__card {
+      grid-template-columns: 1fr;
+    }
+
+    .book__photo {
+      display: none;
+    }
+  }
+</style>
