@@ -46,7 +46,6 @@ const t = useT(lang);
     </div>
 
     <div class="hero__foot">
-      <p class="hero__lede">{t('hero.lede')}</p>
       <div class="hero__ctas">
         <a href="#catering" class="btn">{t('hero.ctaBook')}</a>
         <a href="#menu" class="btn btn--ghost">{t('hero.ctaMenu')}</a>
@@ -67,10 +66,11 @@ const t = useT(lang);
       drive.style.transform = '';
       return;
     }
-    const progress = Math.min(Math.max(window.scrollY / (hero.offsetHeight * 0.8), 0), 1);
+    // Finish the drive-by sooner so a little scroll clears the hero.
+    const progress = Math.min(Math.max(window.scrollY / (hero.offsetHeight * 0.32), 0), 1);
     // Ease-in so the van "accelerates" away to the left as you scroll.
     const eased = progress * progress;
-    drive.style.transform = `translate3d(${-eased * 130}vw, 0, 0) rotate(${eased * 1.5}deg)`;
+    drive.style.transform = `translate3d(${-eased * 170}vw, 0, 0) rotate(${eased * 2.2}deg)`;
   };
 
   window.addEventListener(
@@ -92,6 +92,8 @@ const t = useT(lang);
     padding-top: clamp(7rem, 12vw, 9rem);
     padding-bottom: clamp(3rem, 6vw, 5rem);
     overflow: hidden;
+    overflow-x: clip;
+    max-width: 100%;
   }
 
   /* Red/orange smoke glow, taken from the WING-BOX poster */
@@ -178,7 +180,10 @@ const t = useT(lang);
   .hero__arrive {
     width: min(900px, 100%);
     margin-left: auto;
+    /* Parked a bit further back (right) so the nose doesn’t sit so far forward */
+    --park-x: 14%;
     animation: drive-in 2s cubic-bezier(0.16, 0.8, 0.24, 1) 0.15s both;
+    transform: translate3d(var(--park-x), 0, 0);
     transform-origin: 30% 100%;
   }
 
@@ -262,13 +267,13 @@ const t = useT(lang);
       transform: translate3d(110vw, 0, 0);
     }
     70% {
-      transform: translate3d(-1.5%, 0, 0) rotate(-1.2deg);
+      transform: translate3d(calc(var(--park-x) - 2%), 0, 0) rotate(-1.2deg);
     }
     85% {
-      transform: translate3d(0.5%, 0, 0) rotate(0.4deg);
+      transform: translate3d(calc(var(--park-x) + 1%), 0, 0) rotate(0.4deg);
     }
     100% {
-      transform: none;
+      transform: translate3d(var(--park-x), 0, 0);
     }
   }
 
@@ -299,26 +304,22 @@ const t = useT(lang);
 
   .hero__foot {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1.5rem 3rem;
+    justify-content: center;
     margin-top: clamp(1.5rem, 3vw, 2.5rem);
     padding-top: clamp(1.5rem, 3vw, 2.5rem);
     border-top: 1px solid rgba(247, 134, 30, 0.3);
   }
 
-  .hero__lede {
-    font-size: clamp(1.05rem, 1.6vw, 1.25rem);
-    max-width: 40ch;
-    margin: 0;
-    color: rgba(255, 248, 240, 0.85);
-  }
-
   .hero__ctas {
     display: flex;
-    flex-wrap: wrap;
+    width: 100%;
     gap: 0.75rem;
+  }
+
+  .hero__ctas .btn {
+    flex: 1;
+    justify-content: center;
+    text-align: center;
   }
 
   @media (max-width: 760px) {
@@ -332,12 +333,13 @@ const t = useT(lang);
     }
 
     .hero__arrive {
-      width: 112%;
-      margin-right: -6%;
+      width: 100%;
+      margin-right: 0;
+      --park-x: 10%;
     }
 
     .hero :global(.stamp.hero__stamp) {
-      top: 5.5rem;
+      top: 6.25rem;
       --size: 96px;
     }
   }

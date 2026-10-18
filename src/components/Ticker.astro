@@ -12,41 +12,52 @@ const { lang, tone = 'orange', reverse = false } = Astro.props;
 const words = site.ticker.map((w) => tr(w, lang));
 ---
 
-<div class:list={['ticker', `ticker--${tone}`, { 'ticker--reverse': reverse }]} aria-label={words.join(', ')}>
-  <div class="ticker__track" aria-hidden="true">
-    {[0, 1].map(() => (
-      <div class="ticker__group">
-        {words.map((w) => (
-          <>
-            <span>{w}</span>
-            <Trailer class="ticker__icon" />
-          </>
-        ))}
-      </div>
-    ))}
+<div class="ticker-clip">
+  <div class:list={['ticker', `ticker--${tone}`, { 'ticker--reverse': reverse }]} aria-label={words.join(', ')}>
+    <div class="ticker__track" aria-hidden="true">
+      {[0, 1].map(() => (
+        <div class="ticker__group">
+          {words.map((w) => (
+            <>
+              <span>{w}</span>
+              <Trailer class="ticker__icon" />
+            </>
+          ))}
+        </div>
+      ))}
+    </div>
   </div>
 </div>
 
 <style>
+  /* Extra vertical padding so a rotated band isn’t shaved flat by overflow */
+  .ticker-clip {
+    overflow: hidden;
+    width: 100%;
+    padding-block: clamp(1.5rem, 3.5vw, 2.75rem);
+  }
+
   .ticker {
     overflow: hidden;
     padding-block: 1rem;
     border-block: 2px solid var(--black);
     position: relative;
     z-index: 2;
+    width: 110%;
+    margin-inline: -5%;
   }
 
   .ticker--orange {
     background: var(--orange);
     color: var(--black);
-    transform: rotate(-1.2deg);
-    margin-block: -0.6rem;
+    transform: rotate(-2.5deg);
   }
 
   .ticker--black {
     background: var(--black);
     color: var(--orange);
     border-color: var(--orange);
+    transform: rotate(2.5deg);
   }
 
   .ticker__track {

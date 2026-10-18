@@ -36,25 +36,30 @@
 html {
   scroll-behavior: smooth;
   scroll-padding-top: 5rem;
+  overflow-x: clip;
+  max-width: 100%;
 }
 
 body {
   margin: 0;
+  width: 100%;
+  max-width: 100%;
   background: var(--black);
   color: var(--white);
   font-family: var(--font-body);
   font-size: 1rem;
   line-height: 1.6;
   -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
+  overflow-x: clip;
+  position: relative;
 }
 
-/* Film grain over the whole page, pointer-events off so it never blocks clicks */
+/* Film grain sits under the fixed header so nav stays clean */
 body::after {
   content: '';
   position: fixed;
   inset: 0;
-  z-index: 100;
+  z-index: 40;
   pointer-events: none;
   opacity: 0.09;
   mix-blend-mode: overlay;

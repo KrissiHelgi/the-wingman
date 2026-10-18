@@ -78,21 +78,28 @@ const links = [
   .header {
     position: fixed;
     inset: 0 0 auto;
-    z-index: 50;
+    z-index: 200;
+    background: var(--black);
+    border-bottom: 1px solid rgba(247, 134, 30, 0.15);
   }
 
-  /* Blur lives on a pseudo-element: backdrop-filter on .header itself would
-     become the containing block for the fixed mobile nav and collapse it. */
+  /* Extra blur layer on scroll / open — kept as a sibling so fixed mobile
+     nav is not trapped by backdrop-filter on .header itself. */
   .header::before {
     content: '';
     position: absolute;
     inset: 0;
-    z-index: -1;
+    z-index: 0;
     opacity: 0;
-    background: rgba(11, 11, 11, 0.92);
-    backdrop-filter: blur(10px);
-    box-shadow: 0 1px 0 rgba(247, 134, 30, 0.25);
+    background: rgba(11, 11, 11, 0.72);
+    backdrop-filter: blur(12px);
     transition: opacity 0.3s ease;
+    pointer-events: none;
+  }
+
+  .header.is-scrolled,
+  .header.is-open {
+    border-bottom-color: rgba(247, 134, 30, 0.35);
   }
 
   .header.is-scrolled::before,
@@ -101,6 +108,8 @@ const links = [
   }
 
   .header__inner {
+    position: relative;
+    z-index: 1;
     display: flex;
     align-items: center;
     gap: 2rem;
