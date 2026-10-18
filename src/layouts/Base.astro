@@ -7,7 +7,7 @@ interface Props {
 }
 const { lang } = Astro.props;
 const t = useT(lang);
-const site = Astro.site ?? new URL('https://thewingman.is');
+const site = Astro.site ?? new URL('https://thewingman.vercel.app');
 const canonical = new URL(pathFor(lang), site).href;
 const ogImage = new URL('/og.png', site).href;
 ---
