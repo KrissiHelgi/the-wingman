@@ -49,7 +49,7 @@ const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
           <span>{t('catering.phone')}</span>
           <input name="phone" type="tel" autocomplete="tel" />
         </label>
-        <label class="form__field">
+        <label class="form__field form__field--full">
           <span>{t('catering.date')}</span>
           <input name="date" type="date" />
         </label>
@@ -182,11 +182,15 @@ const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
     color: var(--white);
     padding: clamp(1.5rem, 4vw, 2.75rem);
     border-radius: var(--radius);
+    /* Keep native date popovers from being clipped by the card */
+    overflow: visible;
   }
 
   .form__field {
     display: grid;
     gap: 0.4rem;
+    min-width: 0;
+    position: relative;
   }
 
   .form__field--full {
@@ -204,6 +208,7 @@ const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
   .form input,
   .form textarea {
     width: 100%;
+    max-width: 100%;
     font: inherit;
     color: var(--white);
     background: var(--ink);
@@ -212,12 +217,32 @@ const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
     padding: 0.8rem 0.9rem;
     color-scheme: dark;
     transition: border-color 0.2s ease;
+    box-sizing: border-box;
   }
 
   .form input:focus,
   .form textarea:focus {
     outline: none;
     border-color: var(--orange);
+  }
+
+  /* Room for the calendar control so it doesn’t sit on the value / next field */
+  .form input[type='date'] {
+    min-height: 3rem;
+    padding-inline: 0.9rem 0.65rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .form input[type='date']::-webkit-calendar-picker-indicator {
+    cursor: pointer;
+    opacity: 0.85;
+    margin-left: 0.35rem;
+    padding: 0.2rem;
+  }
+
+  .form input[type='date']:focus {
+    z-index: 2;
   }
 
   .form textarea {
@@ -293,6 +318,17 @@ const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
   @media (max-width: 520px) {
     .form {
       grid-template-columns: 1fr;
+    }
+
+    /* 16px avoids iOS focus-zoom that makes the picker cover the form */
+    .form input,
+    .form textarea,
+    .form select {
+      font-size: 16px;
+    }
+
+    .form input[type='date'] {
+      min-height: 3.25rem;
     }
   }
 </style>

@@ -1,14 +1,13 @@
 ---
 import Trailer from './Trailer.astro';
 import { type Lang, pathFor, useT } from '../i18n';
-import { schedule, site } from '../lib/content';
+import { site } from '../lib/content';
 
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
 const t = useT(lang);
-const open = schedule.weekly.filter((s) => !s.closed && s.hours);
 const socials = [
   { label: 'Instagram', href: site.instagram },
   { label: 'Facebook', href: site.facebook },
@@ -24,14 +23,6 @@ const socials = [
     </div>
 
     <div class="footer__cols">
-      <div>
-        <h2 class="footer__h">{t('footer.hours')}</h2>
-        <ul>
-          {open.map((s) => (
-            <li><span>{t(`days.${s.day}`)}</span><span class="mono">{s.hours}</span></li>
-          ))}
-        </ul>
-      </div>
       <div>
         <h2 class="footer__h">{t('footer.contact')}</h2>
         <ul>
@@ -92,7 +83,7 @@ const socials = [
 
   .footer__cols {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr;
     gap: 2rem;
     margin-top: clamp(3rem, 6vw, 5rem);
     padding-top: 2.5rem;

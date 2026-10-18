@@ -89,50 +89,13 @@ content:
             component: spice
 
   - name: schedule
-    label: Staðsetning / Schedule
+    label: Staðsetning / Where next
     type: file
     path: src/content/schedule.yaml
     format: yaml
     fields:
-      - name: weekly
-        label: Vikan / Weekly spots
-        type: object
-        list: true
-        fields:
-          - name: day
-            label: Dagur / Day
-            type: select
-            required: true
-            options:
-              values:
-                - { value: mon, label: Mánudagur }
-                - { value: tue, label: Þriðjudagur }
-                - { value: wed, label: Miðvikudagur }
-                - { value: thu, label: Fimmtudagur }
-                - { value: fri, label: Föstudagur }
-                - { value: sat, label: Laugardagur }
-                - { value: sun, label: Sunnudagur }
-          - name: closed
-            label: Lokað / Closed
-            type: boolean
-          - name: place
-            label: Staður / Place
-            type: string
-          - name: address
-            label: Heimilisfang / Address
-            type: string
-          - name: hours
-            label: Opnunartími, t.d. 17:00–20:00 / Hours
-            type: string
-          - name: mapUrl
-            label: Google Maps hlekkur / link
-            type: string
-          - name: note
-            label: Athugasemd / Note
-            component: localized
-            required: false
       - name: events
-        label: Viðburðir / Events
+        label: Næstu staðir / Upcoming stops
         type: object
         list: true
         fields:
@@ -141,14 +104,18 @@ content:
             type: date
             required: true
           - name: title
-            label: Heiti / Title
+            label: Heiti / Name
             component: localized
           - name: place
             label: Staður / Place
             type: string
           - name: hours
-            label: Tími / Hours
+            label: Tími, t.d. 17:00–20:00 / Hours
             type: string
+          - name: mapUrl
+            label: Google Maps hlekkur / link
+            type: string
+            required: false
 
   - name: site
     label: Upplýsingar / Site info
