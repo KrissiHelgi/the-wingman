@@ -40,7 +40,7 @@ All content currently in the YAML files is **placeholder** and needs to be repla
 ## Catering form (Web3Forms)
 
 1. Go to [web3forms.com](https://web3forms.com), enter the email that should receive catering requests, and copy the access key.
-2. Add it as `PUBLIC_WEB3FORMS_KEY` in Cloudflare (and in `.env` locally).
+2. Add it as `PUBLIC_WEB3FORMS_KEY` in Vercel (and in `.env` locally).
 
 Without a key, the catering section shows a plain email/phone link instead of the form. Spam is filtered with Web3Forms' hidden `botcheck` field.
 
