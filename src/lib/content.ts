@@ -7,7 +7,7 @@ import siteYaml from '../content/site.yaml?raw';
 export interface MenuItem {
   name: Localized;
   description?: Localized;
-  price: number;
+  price?: number;
   spice?: number;
   tag?: Localized;
   soldOut?: boolean;
@@ -55,7 +55,7 @@ export interface Site {
   facebook?: string;
   tiktok?: string;
   booking: { motto: Localized; cta: Localized };
-  catering: { intro: Localized; points: Localized[] };
+  catering: { intro: Localized; points?: Localized[] };
   gallery: GalleryImage[];
 }
 

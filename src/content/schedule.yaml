@@ -1,24 +1,3 @@
-# Upcoming stops / events. Past dates hide automatically on the next build.
-# Edit in Pages CMS → Staðsetning, or here.
-events:
-  - date: 2026-10-24
-    title:
-      is: Mjölnir
-      en: Mjölnir
-    place: Flugvallarvegur 3-3a, Reykjavík
-    hours: 17:00–20:00
-    mapUrl: https://maps.google.com/?q=Mjölnir+Reykjavík
-  - date: 2026-10-29
-    title:
-      is: Grandi lunch
-      en: Grandi lunch
-    place: Grandagarður, Reykjavík
-    hours: 11:30–14:00
-    mapUrl: https://maps.google.com/?q=Grandagarður+Reykjavík
-  - date: 2026-11-07
-    title:
-      is: Jólamarkaður
-      en: Christmas market
-    place: Hjartagarðurinn
-    hours: 13:00–18:00
-    mapUrl: https://maps.google.com/?q=Hjartagarðurinn+Reykjavík
+# Stops list unused on the site (owner wants Instagram / Facebook only).
+# Kept empty so CMS can still add events later if needed.
+events: []

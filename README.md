@@ -50,7 +50,7 @@ Without a key, the catering section shows a plain email/phone link instead of th
 2. Go to [app.pagescms.org](https://app.pagescms.org) and sign in with GitHub.
 3. Open the repo. The sidebar has three sections:
    - **Matseðill / Menu** – categories, items, prices, heat level, "sold out" toggle and sauces.
-   - **Staðsetning / Where next** – upcoming stops and events (date, name, place, hours, map). Past dates hide on the next rebuild.
+   - **Staðsetning** – optional (site primarily points people to Instagram / Facebook).
    - **Upplýsingar / Site info** – story, contact details, socials, catering text and the photo gallery.
 4. Every text field has an Icelandic and an English box; fill in both.
 5. Click **Save**. The site updates about a minute later.

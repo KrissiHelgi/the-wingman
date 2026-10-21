@@ -65,9 +65,9 @@ content:
                 component: localized
                 required: false
               - name: price
-                label: Verð (kr.) / Price (ISK)
+                label: Verð (kr.) / Price (ISK) — valfrjálst / optional
                 type: number
-                required: true
+                required: false
               - name: spice
                 component: spice
               - name: tag
@@ -89,13 +89,13 @@ content:
             component: spice
 
   - name: schedule
-    label: Staðsetning / Where next
+    label: Staðsetning (valfrjálst) / Stops (optional)
     type: file
     path: src/content/schedule.yaml
     format: yaml
     fields:
       - name: events
-        label: Næstu staðir / Upcoming stops
+        label: Næstu staðir — síðan notar Instagram/Facebook sem aðal / site uses socials as primary
         type: object
         list: true
         fields:

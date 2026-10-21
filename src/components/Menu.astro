@@ -1,6 +1,4 @@
 ---
-import { Image } from 'astro:assets';
-import wings from '../assets/wings.jpg';
 import Trailer from './Trailer.astro';
 import Heat from './Heat.astro';
 import { type Lang, tr, useT } from '../i18n';
@@ -16,13 +14,8 @@ const t = useT(lang);
 <section class="section section--cream menu" id="menu">
   <div class="wrap">
     <header class="menu__head">
-      <div>
-        <p class="eyebrow">{t('menu.eyebrow')}</p>
-        <h2 class="menu__title">{t('menu.title')}</h2>
-      </div>
-      <div class="menu__photo">
-        <Image src={wings} alt={lang === 'is' ? 'Kjúklingavængir og franskar' : 'Chicken wings and fries'} widths={[400, 700]} sizes="(max-width: 760px) 90vw, 420px" />
-      </div>
+      <p class="eyebrow">{t('menu.eyebrow')}</p>
+      <h2 class="menu__title">{t('menu.title')}</h2>
     </header>
 
     <Trailer class="menu__divider" />
@@ -39,8 +32,12 @@ const t = useT(lang);
                     {tr(item.name, lang)}
                     <Heat level={item.spice} label={t('menu.spice')} />
                   </span>
-                  <span class="menu__leader" aria-hidden="true"></span>
-                  <span class="menu__price">{formatPrice(item.price)}</span>
+                  {item.price != null && (
+                    <>
+                      <span class="menu__leader" aria-hidden="true"></span>
+                      <span class="menu__price">{formatPrice(item.price)}</span>
+                    </>
+                  )}
                 </div>
                 {item.description && <p class="menu__desc">{tr(item.description, lang)}</p>}
                 {item.tag && <span class="menu__tag">{tr(item.tag, lang)}</span>}
@@ -67,35 +64,10 @@ const t = useT(lang);
 </section>
 
 <style>
-  .menu__head {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    gap: 2rem;
-  }
-
   .menu__title {
     font-size: clamp(4.5rem, 15vw, 13rem);
     color: var(--black);
     margin-top: 0.5rem;
-  }
-
-  .menu__photo {
-    width: min(420px, 40%);
-    aspect-ratio: 1;
-    border-radius: 50%;
-    overflow: hidden;
-    border: 6px solid var(--black);
-    transform: rotate(6deg);
-    flex: none;
-    margin-bottom: -1rem;
-  }
-
-  .menu__photo :global(img) {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transform: scale(1.12);
   }
 
   .menu :global(.menu__divider) {
@@ -226,16 +198,4 @@ const t = useT(lang);
     letter-spacing: 0.06em;
   }
 
-  @media (max-width: 760px) {
-    .menu__head {
-      flex-direction: column-reverse;
-      align-items: flex-start;
-    }
-
-    .menu__photo {
-      width: 62%;
-      align-self: flex-end;
-      margin-bottom: -3rem;
-    }
-  }
 </style>

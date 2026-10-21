@@ -17,11 +17,13 @@ const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
       <p class="eyebrow">{t('catering.eyebrow')}</p>
       <h2 class="catering__title">{t('catering.title')}</h2>
       <p class="catering__lede">{tr(site.catering.intro, lang)}</p>
-      <ul class="catering__points">
-        {site.catering.points.map((p) => (
-          <li><Trailer class="catering__bullet" />{tr(p, lang)}</li>
-        ))}
-      </ul>
+      {(site.catering.points?.length ?? 0) > 0 && (
+        <ul class="catering__points">
+          {site.catering.points.map((p) => (
+            <li><Trailer class="catering__bullet" />{tr(p, lang)}</li>
+          ))}
+        </ul>
+      )}
     </div>
 
     {accessKey ? (
@@ -134,19 +136,19 @@ const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
   .catering__inner {
     display: grid;
     grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
-    gap: clamp(2.5rem, 6vw, 6rem);
+    gap: clamp(1.5rem, 4vw, 3.5rem);
     align-items: start;
   }
 
   .catering__title {
     font-size: clamp(3.2rem, 7.5vw, 6.5rem);
-    margin: 0.75rem 0 1.5rem;
+    margin: 0.75rem 0 1rem;
   }
 
   .catering__lede {
     font-size: 1.1rem;
     max-width: 40ch;
-    margin: 0 0 2rem;
+    margin: 0;
   }
 
   .catering__points {
@@ -177,10 +179,10 @@ const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
     position: relative;
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 1.1rem;
+    gap: 0.75rem;
     background: var(--black);
     color: var(--white);
-    padding: clamp(1.5rem, 4vw, 2.75rem);
+    padding: clamp(1.15rem, 3vw, 2rem);
     border-radius: var(--radius);
     /* Keep native date popovers from being clipped by the card */
     overflow: visible;
@@ -188,7 +190,7 @@ const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
 
   .form__field {
     display: grid;
-    gap: 0.4rem;
+    gap: 0.3rem;
     min-width: 0;
     position: relative;
   }
@@ -214,7 +216,7 @@ const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
     background: var(--ink);
     border: 1px solid rgba(255, 248, 240, 0.15);
     border-radius: 12px;
-    padding: 0.8rem 0.9rem;
+    padding: 0.65rem 0.8rem;
     color-scheme: dark;
     transition: border-color 0.2s ease;
     box-sizing: border-box;
@@ -254,8 +256,8 @@ const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
     display: flex;
     flex-wrap: wrap;
     align-items: center;
-    gap: 1rem;
-    margin-top: 0.5rem;
+    gap: 0.75rem;
+    margin-top: 0.25rem;
   }
 
   .form__foot .btn:disabled {
@@ -312,6 +314,7 @@ const accessKey = import.meta.env.PUBLIC_WEB3FORMS_KEY as string | undefined;
   @media (max-width: 960px) {
     .catering__inner {
       grid-template-columns: 1fr;
+      gap: 1.25rem;
     }
   }
 

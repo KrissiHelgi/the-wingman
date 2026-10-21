@@ -1,19 +1,20 @@
-# PLACEHOLDER TEXT: swap the story, contact details and socials for the real ones.
 tagline:
   is: Kjúklingavængir á hjólum síðan 2017
-  en: Fried chicken wings on wheels since 2017
+  en: Chicken wings on wheels since 2017
 about:
-  - is: The Wingman byrjaði árið 2017 með einfalda hugmynd. Bestu kjúklingavængir landsins eiga ekki að vera fastir á einum stað.
-    en: The Wingman started in 2017 with a simple idea. The best chicken wings in the country shouldn’t be stuck in one place.
-  - is: Svo við settum djúpsteikingarpottinn í svartan vagn og keyrðum af stað. Í dag mætum við á líkamsræktarstöðvar, hátíðir, vinnustaði og í afmæli um allt höfuðborgarsvæðið.
-    en: So we put the fryer in a black van and hit the road. Today you’ll find us at gyms, festivals, workplaces and birthday parties all over the capital area.
-  - is: Vængirnir eru marineraðir yfir nótt, steiktir þar til þeir eru stökkir og veltir upp úr sósum sem við gerum sjálf. Engin flýtileið.
-    en: Our wings are marinated overnight, fried until properly crispy and tossed in sauces we make ourselves. No shortcuts.
+  - is: The Wingman var stofnað af fjórum vinum sem stunduðu nám saman í Háskólanum í Reykjavík. Hugmyndin var að bjóða upp á kjúklingavængi á helstu stórhátíðum sem og skapa ógleymanlega upplifun á einkaviðburðum.
+    en: The Wingman was founded by four friends who studied together at the University of Reykjavík. The idea was to serve chicken wings at the biggest festivals — and create an unforgettable experience at private events.
+  - is: Hvort sem þú ert að skipuleggja lítinn fjölskylduviðburð eða stóra fyrirtækjahátíð, er The Wingman tilvalinn félagi – eins og nafnið gefur til kynna, alltaf til staðar þegar þú þarft á honum að halda.
+    en: Whether you’re planning a small family gathering or a big company celebration, The Wingman is the perfect wingman — always there when you need him, just like the name says.
+  - is: Hvort sem það er afmæli, starfsmannagleði, brúðkaup eða hátíð. Við mætum með bílinn og sköpum ógleymanlega upplifun fyrir gesti.
+    en: Birthday, staff party, wedding or festival — we show up with the truck and create an unforgettable experience for your guests.
 ticker:
-  - is: Stökkir vængir
-    en: Crispy wings
-  - is: Heimagerðar sósur
-    en: House-made sauces
+  - is: Kjúklingavængir
+    en: Chicken wings
+  - is: Buffalo / BBQ
+    en: Buffalo / BBQ
+  - is: Þinn viðburður
+    en: Your event
   - is: Street food
     en: Street food
   - is: Síðan 2017
@@ -27,44 +28,39 @@ facebook: https://www.facebook.com/wingmaniceland/
 tiktok: ''
 booking:
   motto:
-    is: Gerðu þinn viðburð enn betri með Wingman
-    en: Make your event better with Wingman
+    is: Gerðu góðan viðburð enn betri með The Wingman
+    en: Make a good event even better with The Wingman
   cta:
-    is: Bókaðu Wingman í þitt partý
-    en: Book Wingman for your party
+    is: Bókaðu The Wingman í þinn viðburð
+    en: Book The Wingman for your event
 catering:
   intro:
-    is: Afmæli, starfsmannapartý, brúðkaup eða hátíð. Við mætum með vagninn, steikjum á staðnum og sjáum um allt.
-    en: Birthdays, office parties, weddings or festivals. We roll up with the truck, fry on site and take care of everything.
-  points:
-    - is: Frá 30 upp í 500+ gesti
-      en: From 30 to 500+ guests
-    - is: Sérsniðinn matseðill
-      en: Custom menu
-    - is: Um allt höfuðborgarsvæðið og víðar
-      en: Capital area and beyond
+    is: Hvort sem það er afmæli, starfsmannagleði, brúðkaup eða hátíð. Við mætum með bílinn og sköpum ógleymanlega upplifun fyrir gesti.
+    en: Whether it’s a birthday, staff party, wedding or festival — we show up with the truck and create an unforgettable experience for your guests.
+  points: []
 gallery:
-  - image: /gallery/truck-crowd.jpg
+  - image: /gallery/wings-buffalo.jpg
     caption:
-      is: Röð við lúguna
-      en: Queue at the window
-  - image: /gallery/truck-night.jpg
+      is: Buffalo vængir og franskar
+      en: Buffalo wings and fries
+  - image: /gallery/wings-bbq.jpg
     caption:
-      is: Kvöldvakt við Mjölni
-      en: Night shift at Mjölnir
-  - image: /gallery/truck-sunny.jpg
+      is: BBQ vængir
+      en: BBQ wings
+  - image: /gallery/wings-close.jpg
     caption:
-      is: Sumarhátíð
-      en: Summer festival
-  - image: /gallery/wings.jpg
+      is: Beint úr lúgunni
+      en: Straight from the window
+  - image: /gallery/van-side.jpg
     caption:
-      is: Vængir og franskar
-      en: Wings and fries
-  - image: /gallery/truck-lot.jpg
+      is: Vagninn
+      en: The truck
+  - image: /gallery/service.jpg
     caption:
-      is: Tilbúin í kvöldið
-      en: Ready for the night
-  - image: /gallery/truck-grass.jpg
+      is: Í lúgunni
+      en: At the window
+  - image: /gallery/crowd.jpg
     caption:
-      is: Garðveisla
-      en: Garden party
+      is: Stemningin
+      en: The vibe
+
